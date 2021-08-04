@@ -23,7 +23,11 @@ public class DashboardScreen extends Screen {
 
         classCatalog newClass = new classCatalog(className,classSize);
 
-        System.out.println("Class successfully created. Logging out for now.");
+        System.out.println("Class successfully created.");
+        System.out.println("Register for Class: ");
+        String newName = consoleReader.readLine();
+        newClass.setRegisteredStudents(newClass, newName);
+        newClass.getRegisteredStudents(newClass);
         router.navigate("/welcome");
     }
 
