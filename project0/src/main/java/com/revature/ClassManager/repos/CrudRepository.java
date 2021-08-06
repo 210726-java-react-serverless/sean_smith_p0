@@ -1,4 +1,4 @@
-package com.revature.studentmanager.repositories;
+package com.revature.ClassManager.repos;
 
 public interface CrudRepository<T> {
 

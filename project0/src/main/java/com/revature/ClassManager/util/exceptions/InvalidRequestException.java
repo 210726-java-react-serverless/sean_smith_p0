@@ -1,4 +1,4 @@
-package com.revature.studentmanager.exceptions;
+package com.revature.ClassManager.util.exceptions;
 
 public class InvalidRequestException extends RuntimeException {
 

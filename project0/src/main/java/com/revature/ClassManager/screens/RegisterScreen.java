@@ -1,19 +1,17 @@
-package com.revature.studentmanager.screens;
+package com.revature.bookstore.screens;
 
-import com.revature.studentmanager.models.AppUser;
-import com.revature.studentmanager.services.UserService;
-import com.revature.studentmanager.util.ScreenRouter;
-import java.io.BufferedReader;
-import org.apache.logging.log4j.Logger;
+import com.revature.bookstore.documents.AppUser;
+import com.revature.bookstore.services.UserService;
+import com.revature.bookstore.util.ScreenRouter;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.appender.FileAppender;
+import org.apache.logging.log4j.Logger;
 
+import java.io.BufferedReader;
 
 public class RegisterScreen extends Screen {
 
+    private final Logger logger = LogManager.getLogger(RegisterScreen.class);
     private final UserService userService;
-    private static final Logger logger = LogManager.getLogger(RegisterScreen.class);
-
 
     public RegisterScreen(BufferedReader consoleReader, ScreenRouter router, UserService userService) {
         super("RegisterScreen", "/register", consoleReader, router);
@@ -22,6 +20,21 @@ public class RegisterScreen extends Screen {
 
     @Override
     public void render() throws Exception {
+
+        System.out.println("\nUser Registration\n" +
+                           "1) Register\n" +
+                           "2) Go Back");
+        System.out.print("> ");
+        int userChoice = Integer.parseInt(consoleReader.readLine());
+
+        switch (userChoice) {
+            case 1:
+                break;
+            case 2:
+                router.goToPrevious();
+                return;
+        }
+
         System.out.println("\nRegister for a new account!");
 
         System.out.print("First name: ");
@@ -41,20 +54,15 @@ public class RegisterScreen extends Screen {
 
         AppUser newUser = new AppUser(firstName, lastName, email, username, password);
 
-
-        // TODO replace the below souts with proper logging (to a file)
         try {
             userService.register(newUser);
             logger.info("User successfully registered!");
             router.navigate("/dashboard");
         } catch (Exception e) {
             logger.error(e.getMessage());
-            logger.debug("User not registered");
-            logger.trace("Returning to welcome screen");
+            logger.debug("User not registered!");
             router.navigate("/welcome");
         }
-
-
 
     }
 

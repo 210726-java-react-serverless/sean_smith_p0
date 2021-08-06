@@ -1,8 +1,8 @@
-package com.revature.studentmanager;
+package com.revature.ClassManager;
 
-import com.revature.studentmanager.util.AppState;
+import com.revature.bookstore.util.AppState;
 
-public class App {
+public class AppDriver {
 
     public static void main(String[] args) {
         AppState app = new AppState();

@@ -1,15 +1,12 @@
-package com.revature.studentmanager.screens;
+package com.revature.ClassManager.screens;
 
-import com.revature.studentmanager.util.ScreenRouter;
-
+import com.revature.bookstore.util.ScreenRouter;
 import java.io.BufferedReader;
+import static com.revature.bookstore.util.AppState.shutdown;
 
 public class WelcomeScreen extends Screen {
 
-    public WelcomeScreen(BufferedReader consoleReader, ScreenRouter router) {
-        super("WelcomeScreen", "/welcome", consoleReader, router);
-        System.out.println("WelcomeScreen instantiated!");
-    }
+    public WelcomeScreen(BufferedReader consoleReader, ScreenRouter router) { super("WelcomeScreen", "/welcome", consoleReader, router); }
 
     @Override
     public void render() throws Exception {
@@ -34,16 +31,13 @@ public class WelcomeScreen extends Screen {
                 break;
             case "3":
                 System.out.println("Exiting application...");
-                // figure a way to make the app shutdown
-                // TODO this is ugly and bad practice, we will fix it later
-                System.exit(0);
+                shutdown();
+                break;
             default:
                 System.out.println("You provided an invalid value, please try again.");
 
         }
 
-
-
     }
-}
 
+}
