@@ -25,7 +25,7 @@ public class MongoClientFactory {
         Properties appProperties = new Properties();
 
         try {
-            appProperties.load(new FileReader("src/main/resources/application.properties"));
+            appProperties.load(new FileReader("project0/src/main/resources/application.properties"));
 
             String ipAddress = appProperties.getProperty("ipAddress");
             int port = Integer.parseInt(appProperties.getProperty("port"));

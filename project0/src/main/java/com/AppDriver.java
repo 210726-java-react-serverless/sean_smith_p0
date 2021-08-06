@@ -1,4 +1,4 @@
-package com.revature.ClassManager;
+package com;
 
 import com.revature.ClassManager.util.AppState;
 
