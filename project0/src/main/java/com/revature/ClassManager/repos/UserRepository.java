@@ -8,9 +8,9 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
-import com.revature.bookstore.documents.AppUser;
-import com.revature.bookstore.util.MongoClientFactory;
-import com.revature.bookstore.util.exceptions.DataSourceException;
+import com.revature.ClassManager.documents.AppUser;
+import com.revature.ClassManager.util.MongoClientFactory;
+import com.revature.ClassManager.util.exceptions.DataSourceException;
 
 public class UserRepository implements CrudRepository<AppUser> {
 
@@ -18,8 +18,8 @@ public class UserRepository implements CrudRepository<AppUser> {
 
         try {
             MongoClient mongoClient = MongoClientFactory.getInstance().getConnection();
-            MongoDatabase bookstoreDatabase = mongoClient.getDatabase("bookstore");
-            MongoCollection<Document> usersCollection = bookstoreDatabase.getCollection("users");
+            MongoDatabase classDatabase = mongoClient.getDatabase("bookstore");
+            MongoCollection<Document> usersCollection = classDatabase.getCollection("users");
             Document queryDoc = new Document("username", username).append("password", password);
             Document authUserDoc = usersCollection.find(queryDoc).first();
 
@@ -64,8 +64,8 @@ public class UserRepository implements CrudRepository<AppUser> {
         try {
             MongoClient mongoClient = MongoClientFactory.getInstance().getConnection();
 
-            MongoDatabase bookstoreDb = mongoClient.getDatabase("bookstore");
-            MongoCollection<Document> usersCollection = bookstoreDb.getCollection("users");
+            MongoDatabase classDb = mongoClient.getDatabase("bookstore");
+            MongoCollection<Document> usersCollection = classDb.getCollection("users");
             Document newUserDoc = new Document("firstName", newUser.getFirstName())
                     .append("lastName", newUser.getLastName())
                     .append("email", newUser.getEmail())

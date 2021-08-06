@@ -6,7 +6,7 @@ import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 
-import com.revature.bookstore.util.exceptions.DataSourceException;
+import com.revature.ClassManager.util.exceptions.DataSourceException;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;

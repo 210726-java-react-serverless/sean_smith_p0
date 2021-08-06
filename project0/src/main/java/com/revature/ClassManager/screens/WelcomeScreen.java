@@ -1,8 +1,9 @@
 package com.revature.ClassManager.screens;
 
-import com.revature.bookstore.util.ScreenRouter;
+import com.revature.ClassManager.util.ScreenRouter;
 import java.io.BufferedReader;
-import static com.revature.bookstore.util.AppState.shutdown;
+
+import static com.revature.ClassManager.util.AppState.shutdown;
 
 public class WelcomeScreen extends Screen {
 

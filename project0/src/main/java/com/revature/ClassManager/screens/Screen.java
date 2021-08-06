@@ -1,6 +1,6 @@
 package com.revature.ClassManager.screens;
 
-import com.revature.bookstore.util.ScreenRouter;
+import com.revature.ClassManager.util.ScreenRouter;
 
 import java.io.BufferedReader;
 

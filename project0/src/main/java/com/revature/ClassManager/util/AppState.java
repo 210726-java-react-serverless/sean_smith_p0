@@ -1,8 +1,8 @@
 package com.revature.ClassManager.util;
 
-import com.revature.bookstore.repos.UserRepository;
-import com.revature.bookstore.screens.*;
-import com.revature.bookstore.services.UserService;
+import com.revature.ClassManager.repos.UserRepository;
+import com.revature.ClassManager.screens.*;
+import com.revature.ClassManager.services.UserService;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

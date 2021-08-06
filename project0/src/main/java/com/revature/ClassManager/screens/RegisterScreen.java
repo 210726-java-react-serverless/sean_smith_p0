@@ -1,8 +1,8 @@
-package com.revature.bookstore.screens;
+package com.revature.ClassManager.screens;
 
-import com.revature.bookstore.documents.AppUser;
-import com.revature.bookstore.services.UserService;
-import com.revature.bookstore.util.ScreenRouter;
+import com.revature.ClassManager.documents.AppUser;
+import com.revature.ClassManager.services.UserService;
+import com.revature.ClassManager.util.ScreenRouter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

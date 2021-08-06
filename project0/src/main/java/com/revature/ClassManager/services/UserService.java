@@ -1,11 +1,11 @@
 package com.revature.ClassManager.services;
 
-import com.revature.bookstore.documents.AppUser;
-import com.revature.bookstore.repos.UserRepository;
-import com.revature.bookstore.util.UserSession;
-import com.revature.bookstore.util.exceptions.AuthenticationException;
-import com.revature.bookstore.util.exceptions.InvalidRequestException;
-import com.revature.bookstore.util.exceptions.ResourcePersistenceException;
+import com.revature.ClassManager.documents.AppUser;
+import com.revature.ClassManager.repos.UserRepository;
+import com.revature.ClassManager.util.UserSession;
+import com.revature.ClassManager.util.exceptions.AuthenticationException;
+import com.revature.ClassManager.util.exceptions.InvalidRequestException;
+import com.revature.ClassManager.util.exceptions.ResourcePersistenceException;
 
 public class UserService {
 

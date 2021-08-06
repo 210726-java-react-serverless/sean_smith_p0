@@ -1,7 +1,7 @@
 package com.revature.ClassManager.util;
 
-import com.revature.bookstore.screens.Screen;
-import com.revature.bookstore.util.exceptions.ScreenNotFoundException;
+import com.revature.ClassManager.screens.Screen;
+import com.revature.ClassManager.util.exceptions.ScreenNotFoundException;
 
 import java.util.ArrayDeque;
 import java.util.HashSet;

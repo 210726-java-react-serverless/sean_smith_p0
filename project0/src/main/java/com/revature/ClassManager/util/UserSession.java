@@ -1,6 +1,6 @@
 package com.revature.ClassManager.util;
 
-import com.revature.bookstore.documents.AppUser;
+import com.revature.ClassManager.documents.AppUser;
 
 public class UserSession {
 

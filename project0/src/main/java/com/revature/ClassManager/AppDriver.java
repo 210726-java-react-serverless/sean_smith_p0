@@ -1,6 +1,6 @@
 package com.revature.ClassManager;
 
-import com.revature.bookstore.util.AppState;
+import com.revature.ClassManager.util.AppState;
 
 public class AppDriver {
 
