@@ -1,6 +1,7 @@
 package com.revature.ClassManager.screens;
 
 import com.revature.ClassManager.documents.AppUser;
+import com.revature.ClassManager.documents.registrationCatalog;
 import com.revature.ClassManager.services.UserService;
 import com.revature.ClassManager.util.ScreenRouter;
 
@@ -34,6 +35,19 @@ public class DashboardScreen  extends Screen {
         AppUser currentUser = userService.getSession().getCurrentUser();
 
         System.out.println("Welcome to your dashboard, " + currentUser.getUsername());
+
+        System.out.println("Create new class for Registration: ");
+        System.out.println("Class Name: ");
+        String className = consoleReader.readLine();
+        System.out.println("Class Size: ");
+        int classSize = Integer.parseInt(consoleReader.readLine());
+
+        registrationCatalog newClass = new registrationCatalog(className, classSize);
+        newClass.save(newClass);
+        System.out.println(newClass.getClassName());
+
+        registrationCatalog regClass = registrationCatalog.findClass("Math");
+        System.out.println(regClass);
 
         System.out.println("Screen under construction, sending you back to the Welcome Screen.");
         router.navigate("/welcome");

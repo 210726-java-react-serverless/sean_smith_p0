@@ -32,7 +32,7 @@ public class UserService {
         }
 
         if (userRepo.findUserByEmail(newUser.getEmail()) != null) {
-            throw new ResourcePersistenceException("Provided username is already taken!");
+            throw new ResourcePersistenceException("Provided email is already taken!");
         }
 
         return userRepo.save(newUser);
