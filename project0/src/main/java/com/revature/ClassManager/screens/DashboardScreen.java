@@ -7,7 +7,7 @@ import com.revature.ClassManager.util.ScreenRouter;
 
 import java.io.BufferedReader;
 
-public class DashboardScreen  extends Screen {
+public class DashboardScreen extends Screen {
 
     private final UserService userService;
 
@@ -36,18 +36,18 @@ public class DashboardScreen  extends Screen {
 
         System.out.println("Welcome to your dashboard, " + currentUser.getUsername());
 
-        System.out.println("Create new class for Registration: ");
-        System.out.println("Class Name: ");
+        System.out.println("Choose class to delete: ");
+        //System.out.println("Class Name: ");
         String className = consoleReader.readLine();
-        System.out.println("Class Size: ");
-        int classSize = Integer.parseInt(consoleReader.readLine());
+        //System.out.println("Class Size: ");
+        //int classSize = Integer.parseInt(consoleReader.readLine());
 
-        registrationCatalog newClass = new registrationCatalog(className, classSize);
-        newClass.save(newClass);
-        System.out.println(newClass.getClassName());
+        //registrationCatalog newClass = new registrationCatalog(className, classSize);
+        registrationCatalog newClass = new registrationCatalog(className);
+        newClass.delete(newClass);
+        //newClass.save(newClass);
+        //newClass.find(newClass);
 
-        registrationCatalog regClass = registrationCatalog.findClass("Math");
-        System.out.println(regClass);
 
         System.out.println("Screen under construction, sending you back to the Welcome Screen.");
         router.navigate("/welcome");

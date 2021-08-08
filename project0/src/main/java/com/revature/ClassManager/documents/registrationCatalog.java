@@ -19,6 +19,11 @@ public class registrationCatalog {
         this.classSize = classSize;
     }
 
+
+    public registrationCatalog(String className){
+        this.className = className;
+    }
+
     public registrationCatalog save(registrationCatalog newUser) {
 
         try {
@@ -39,31 +44,44 @@ public class registrationCatalog {
         }
     }
 
-    public static registrationCatalog findClass(String className) {
+
+    public registrationCatalog delete(registrationCatalog newUser) {
 
         try {
             MongoClient mongoClient = MongoClientFactory.getInstance().getConnection();
-            MongoDatabase classDatabase = mongoClient.getDatabase("bookstore");
-            MongoCollection<Document> usersCollection = classDatabase.getCollection("users");
-            Document queryDoc = new Document("username", className);
-            Document authUserDoc = usersCollection.find(queryDoc).first();
 
-            if (authUserDoc == null) {
-                return null;
-            }
+            MongoDatabase classDb = mongoClient.getDatabase("bookstore");
+            MongoCollection<Document> usersCollection = classDb.getCollection("users");
+            Document newUserDoc = new Document("className", newUser.getClassName());
 
-            ObjectMapper mapper = new ObjectMapper();
-            registrationCatalog authUser = mapper.readValue(authUserDoc.toJson(), registrationCatalog.class);
-            return authUser;
+            usersCollection.deleteOne(newUserDoc);
 
-        } catch (JsonMappingException jme) {
-            jme.printStackTrace(); // TODO log this to a file
-            throw new DataSourceException("An exception occurred while mapping the document.", jme);
+            return newUser;
+
         } catch (Exception e) {
             e.printStackTrace(); // TODO log this to a file
             throw new DataSourceException("An unexpected exception occurred.", e);
         }
+    }
 
+    public registrationCatalog find(registrationCatalog newUser) {
+
+        try {
+            MongoClient mongoClient = MongoClientFactory.getInstance().getConnection();
+
+            MongoDatabase classDb = mongoClient.getDatabase("bookstore");
+            MongoCollection<Document> usersCollection = classDb.getCollection("users");
+            Document newUserDoc = new Document("className", newUser.getClassName())
+                    .append("classSize", newUser.getClassSize());
+
+            usersCollection.find(newUserDoc);
+
+            return newUser;
+
+        } catch (Exception e) {
+            e.printStackTrace(); // TODO log this to a file
+            throw new DataSourceException("An unexpected exception occurred.", e);
+        }
     }
 
     public String getClassName() {
