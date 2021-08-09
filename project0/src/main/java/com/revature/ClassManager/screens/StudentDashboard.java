@@ -1,5 +1,6 @@
 package com.revature.ClassManager.screens;
 import com.revature.ClassManager.documents.AppUser;
+import com.revature.ClassManager.documents.registrationCatalog;
 import com.revature.ClassManager.services.UserService;
 import com.revature.ClassManager.util.ScreenRouter;
 
@@ -27,32 +28,37 @@ public class StudentDashboard extends Screen {
 
         System.out.println("Welcome to your dashboard, " + currentUser.getUsername());
         boolean leaveDashboard = false;
-
+        String studentName = currentUser.getFirstName() + " " + currentUser.getLastName();
 
         while(leaveDashboard == false){
-            System.out.println("1. Show Current Classes");
-            System.out.println("2. Register for Class");
-            System.out.println("3. Withdraw from Class");
-            System.out.println("4. Exit Dashboard");
+            System.out.println("1. Show Available Classes");
+            System.out.println("2. Show Currently Registered");
+            System.out.println("3. Register for Class");
+            System.out.println("4. Withdraw from Class");
+            System.out.println("5. Exit Dashboard");
             int userChoice = Integer.parseInt(consoleReader.readLine());
 
             if(userChoice == 1){
-
+                String className = "test";
+                registrationCatalog newClass = new registrationCatalog(className);
+                newClass.showClasses();
             }
             else if(userChoice == 2){
-                /*
-                String fullname = currentUser.getFirstName() + " " + currentUser.getLastName();
-                System.out.println("Class Name: ");
-                String className = consoleReader.readLine();
-                registrationCatalog newClass1 = new registrationCatalog(className, fullname);
-                registrationCatalog newClass2 = new registrationCatalog(className);
-                newClass2.delete(newClass2);
-                newClass1.register(newClass1, fullname);*/
-            }
-            else if(userChoice == 3){
 
             }
+            else if(userChoice == 3){
+                System.out.println("Class Name: ");
+                String className = consoleReader.readLine();
+                registrationCatalog newClass = new registrationCatalog(studentName);
+                newClass.register(newClass, className);
+            }
             else if(userChoice == 4){
+                System.out.println("Choose Class to Withdraw From: ");
+                String className = consoleReader.readLine();
+                registrationCatalog newClass = new registrationCatalog(studentName);
+                newClass.withdraw(newClass, className);
+            }
+            else if(userChoice == 5){
                 leaveDashboard = true;
             }
             else{

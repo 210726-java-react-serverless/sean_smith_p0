@@ -4,6 +4,7 @@ import com.revature.ClassManager.documents.AppUser;
 import com.revature.ClassManager.services.UserService;
 import com.revature.ClassManager.util.ScreenRouter;
 import com.revature.ClassManager.util.exceptions.AuthenticationException;
+import com.revature.ClassManager.util.exceptions.ScreenNotFoundException;
 
 import java.io.BufferedReader;
 
@@ -45,8 +46,9 @@ public class LoginScreen extends Screen {
                         System.out.println("Navigating back to welcome screen...");
                         router.navigate("/welcome");
                     }
+
                 }
-                if(userChoice == 2){
+                else if(userChoice == 2){
                     String type = "admin";
                     userChose = true;
                     System.out.print("Username: ");
@@ -72,7 +74,10 @@ public class LoginScreen extends Screen {
                 else{
                     System.out.println("Invalid Option");
                 }
-            }catch(Exception e){
+            }catch(ScreenNotFoundException e){
+                System.out.println("Screen Not Found");
+            }
+            catch (Exception e){
                 System.out.println("Invalid Input");
             }
 

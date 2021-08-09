@@ -1,14 +1,12 @@
 package com.revature.ClassManager.documents;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoCursor;
-import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.*;
 
 import com.revature.ClassManager.util.MongoClientFactory;
 import com.revature.ClassManager.util.exceptions.DataSourceException;
 import org.bson.Document;
 
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -71,7 +69,25 @@ public class registrationCatalog {
         }
     }
 
-    public registrationCatalog find(registrationCatalog newUser, String className) {
+    public void showClasses() {
+
+        try {
+            MongoClient mongoClient = MongoClientFactory.getInstance().getConnection();
+
+            MongoDatabase classDb = mongoClient.getDatabase("classes");
+
+            MongoIterable<String> list = classDb.listCollectionNames();
+            for (String name : list) {
+                System.out.println(name);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace(); // TODO log this to a file
+            throw new DataSourceException("An unexpected exception occurred.", e);
+        }
+    }
+
+    public registrationCatalog showRoster(registrationCatalog newUser, String className) {
 
         try {
             MongoClient mongoClient = MongoClientFactory.getInstance().getConnection();
@@ -80,13 +96,17 @@ public class registrationCatalog {
             MongoCollection<Document> usersCollection = classDb.getCollection(className);
             Document newUserDoc = new Document("className", newUser.getClassName());
 
-            System.out.println(usersCollection.find());
-            return newUser;
+            FindIterable<Document> iterDoc = usersCollection.find();
+            Iterator it = iterDoc.iterator();
+            while (it.hasNext()) {
+                System.out.println(it.next());
+            }
 
         } catch (Exception e) {
             e.printStackTrace(); // TODO log this to a file
             throw new DataSourceException("An unexpected exception occurred.", e);
         }
+        return newUser;
     }
 
     public registrationCatalog register(registrationCatalog newUser, String classname) {

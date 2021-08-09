@@ -33,18 +33,24 @@ public class TeacherDashboard extends Screen {
 
         while(leaveDashboard == false){
         System.out.println("1. Show Available Classes");
-        System.out.println("2. Add New Class");
-        System.out.println("3. Delete Class");
-        System.out.println("4. Exit Dashboard");
+        System.out.println("2. Show Class Rosters");
+        System.out.println("3. Add New Class");
+        System.out.println("4. Delete Class");
+        System.out.println("5. Exit Dashboard");
         int userChoice = Integer.parseInt(consoleReader.readLine());
 
             if(userChoice == 1){
-                String className = "Math";
+                String className = "test";
                 registrationCatalog newClass = new registrationCatalog(className);
-                newClass.find(newClass, className);
-
+                newClass.showClasses();
             }
             else if(userChoice == 2){
+                System.out.println("Enter Class Name: ");
+                String className = consoleReader.readLine();
+                registrationCatalog newClass = new registrationCatalog(className);
+                newClass.showRoster(newClass, className);
+            }
+            else if(userChoice == 3){
                 System.out.println("Class Name: ");
                 String className = consoleReader.readLine();
                 System.out.println("Class Size: ");
@@ -52,13 +58,13 @@ public class TeacherDashboard extends Screen {
                 registrationCatalog newClass = new registrationCatalog(className, classSize);
                 newClass.save(newClass, newClass.getClassName());
             }
-            else if(userChoice == 3){
+            else if(userChoice == 4){
                 System.out.println("Choose class to delete: ");
                 String className = consoleReader.readLine();
                 registrationCatalog newClass = new registrationCatalog(className);
                 newClass.delete(newClass, className);
             }
-            else if(userChoice == 4){
+            else if(userChoice == 5){
                 leaveDashboard = true;
             }
             else{
