@@ -3,3 +3,26 @@
 06.08.2021 14:50:28.973  - main - INFO  - com.revature.ClassManager.screens.RegisterScreen:User successfully registered!
 06.08.2021 21:29:21.788  - main - INFO  - com.revature.ClassManager.screens.RegisterScreen:User successfully registered!
 06.08.2021 21:43:19.246  - main - INFO  - com.revature.ClassManager.screens.RegisterScreen:User successfully registered!
+07.08.2021 22:36:58.913  - main - INFO  - com.revature.ClassManager.screens.RegisterScreen:Student successfully registered!
+07.08.2021 22:36:58.916  - main - ERROR - com.revature.ClassManager.screens.RegisterScreen:No screen found with provided route!
+07.08.2021 22:36:58.916  - main - DEBUG - com.revature.ClassManager.screens.RegisterScreen:User not registered!
+07.08.2021 22:37:09.689  - main - INFO  - com.revature.ClassManager.screens.RegisterScreen:Teacher successfully registered!
+07.08.2021 22:37:09.689  - main - ERROR - com.revature.ClassManager.screens.RegisterScreen:No screen found with provided route!
+07.08.2021 22:37:09.689  - main - DEBUG - com.revature.ClassManager.screens.RegisterScreen:User not registered!
+07.08.2021 23:13:30.453  - main - INFO  - com.revature.ClassManager.screens.RegisterScreen:Teacher successfully registered!
+07.08.2021 23:13:30.455  - main - ERROR - com.revature.ClassManager.screens.RegisterScreen:No screen found with provided route!
+07.08.2021 23:13:30.455  - main - DEBUG - com.revature.ClassManager.screens.RegisterScreen:User not registered!
+07.08.2021 23:17:08.394  - main - INFO  - com.revature.ClassManager.screens.RegisterScreen:Student successfully registered!
+07.08.2021 23:17:08.396  - main - ERROR - com.revature.ClassManager.screens.RegisterScreen:No screen found with provided route!
+07.08.2021 23:17:08.396  - main - DEBUG - com.revature.ClassManager.screens.RegisterScreen:User not registered!
+07.08.2021 23:17:44.997  - main - INFO  - com.revature.ClassManager.screens.RegisterScreen:Teacher successfully registered!
+07.08.2021 23:17:44.997  - main - ERROR - com.revature.ClassManager.screens.RegisterScreen:No screen found with provided route!
+07.08.2021 23:17:44.997  - main - DEBUG - com.revature.ClassManager.screens.RegisterScreen:User not registered!
+07.08.2021 23:18:10.380  - main - ERROR - com.revature.ClassManager.screens.RegisterScreen:Invalid user data provided!
+07.08.2021 23:18:10.380  - main - DEBUG - com.revature.ClassManager.screens.RegisterScreen:User not registered!
+08.08.2021 20:24:14.680  - main - INFO  - com.revature.ClassManager.screens.RegisterScreen:Teacher successfully registered!
+08.08.2021 20:24:14.683  - main - ERROR - com.revature.ClassManager.screens.RegisterScreen:No screen found with provided route!
+08.08.2021 20:24:14.684  - main - DEBUG - com.revature.ClassManager.screens.RegisterScreen:User not registered!
+08.08.2021 20:26:03.184  - main - INFO  - com.revature.ClassManager.screens.RegisterScreen:Teacher successfully registered!
+08.08.2021 20:26:03.186  - main - ERROR - com.revature.ClassManager.screens.RegisterScreen:No screen found with provided route!
+08.08.2021 20:26:03.186  - main - DEBUG - com.revature.ClassManager.screens.RegisterScreen:User not registered!

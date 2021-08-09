@@ -35,17 +35,33 @@ public class UserService {
             throw new ResourcePersistenceException("Provided email is already taken!");
         }
 
-        return userRepo.save(newUser);
-
+            return userRepo.save(newUser);
     }
 
-    public AppUser login(String username, String password) {
+    public AppUser registerAdmin(AppUser newUser) {
+
+        if (!isUserValid(newUser)) {
+            throw new InvalidRequestException("Invalid user data provided!");
+        }
+
+        if (userRepo.findUserByUsername(newUser.getUsername()) != null) {
+            throw new ResourcePersistenceException("Provided username is already taken!");
+        }
+
+        if (userRepo.findUserByEmail(newUser.getEmail()) != null) {
+            throw new ResourcePersistenceException("Provided email is already taken!");
+        }
+
+        return userRepo.saveAdmin(newUser);
+    }
+
+    public AppUser login(String username, String password, String type) {
 
         if (username == null || username.trim().equals("") || password == null || password.trim().equals("")) {
             throw new InvalidRequestException("Invalid user credentials provided!");
         }
 
-        AppUser authUser = userRepo.findUserByCredentials(username, password);
+        AppUser authUser = userRepo.findUserByCredentials(username, password, type);
 
         if (authUser == null) {
             throw new AuthenticationException("Invalid credentials provided!");

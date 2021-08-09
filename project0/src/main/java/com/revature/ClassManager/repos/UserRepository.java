@@ -14,12 +14,12 @@ import com.revature.ClassManager.util.exceptions.DataSourceException;
 
 public class UserRepository implements CrudRepository<AppUser> {
 
-    public AppUser findUserByCredentials(String username, String password) {
+    public AppUser findUserByCredentials(String username, String password, String type) {
 
         try {
             MongoClient mongoClient = MongoClientFactory.getInstance().getConnection();
             MongoDatabase classDatabase = mongoClient.getDatabase("bookstore");
-            MongoCollection<Document> usersCollection = classDatabase.getCollection("users");
+            MongoCollection<Document> usersCollection = classDatabase.getCollection(type);
             Document queryDoc = new Document("username", username).append("password", password);
             Document authUserDoc = usersCollection.find(queryDoc).first();
 
@@ -39,7 +39,6 @@ public class UserRepository implements CrudRepository<AppUser> {
             e.printStackTrace(); // TODO log this to a file
             throw new DataSourceException("An unexpected exception occurred.", e);
         }
-
     }
 
     // TODO implement this so that we can prevent multiple users from having the same username!
@@ -59,7 +58,6 @@ public class UserRepository implements CrudRepository<AppUser> {
 
     @Override
     public AppUser save(AppUser newUser) {
-
 
         try {
             MongoClient mongoClient = MongoClientFactory.getInstance().getConnection();
@@ -83,6 +81,32 @@ public class UserRepository implements CrudRepository<AppUser> {
         }
 
     }
+
+    public AppUser saveAdmin(AppUser newUser) {
+
+        try {
+            MongoClient mongoClient = MongoClientFactory.getInstance().getConnection();
+
+            MongoDatabase classDb = mongoClient.getDatabase("bookstore");
+            MongoCollection<Document> usersCollection = classDb.getCollection("admin");
+            Document newUserDoc = new Document("firstName", newUser.getFirstName())
+                    .append("lastName", newUser.getLastName())
+                    .append("email", newUser.getEmail())
+                    .append("username", newUser.getUsername())
+                    .append("password", newUser.getPassword());
+
+            usersCollection.insertOne(newUserDoc);
+            newUser.setId(newUserDoc.get("_id").toString());
+
+            return newUser;
+
+        } catch (Exception e) {
+            e.printStackTrace(); // TODO log this to a file
+            throw new DataSourceException("An unexpected exception occurred.", e);
+        }
+
+    }
+
 
     @Override
     public boolean update(AppUser updatedResource) {

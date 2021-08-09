@@ -26,7 +26,7 @@ public class AppState {
         router.addScreen(new WelcomeScreen(consoleReader, router))
               .addScreen(new LoginScreen(consoleReader, router, userService))
               .addScreen(new RegisterScreen(consoleReader, router, userService))
-              .addScreen(new DashboardScreen(consoleReader, router, userService))
+              .addScreen(new TeacherDashboard(consoleReader, router, userService))
               .addScreen(new UserProfileScreen(consoleReader, router));
 
     }

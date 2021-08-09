@@ -12,7 +12,7 @@ public class WelcomeScreen extends Screen {
     @Override
     public void render() throws Exception {
 
-        String menu = "\nWelcome to RevaBooks!\n" +
+        String menu = "\nWelcome to Revature University\n" +
                 "1) Login\n" +
                 "2) Register\n" +
                 "3) Exit application\n" +

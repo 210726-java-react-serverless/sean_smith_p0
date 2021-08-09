@@ -21,47 +21,81 @@ public class RegisterScreen extends Screen {
     @Override
     public void render() throws Exception {
 
-        System.out.println("\nUser Registration\n" +
-                           "1) Register\n" +
-                           "2) Go Back");
-        System.out.print("> ");
-        int userChoice = Integer.parseInt(consoleReader.readLine());
-
-        switch (userChoice) {
-            case 1:
-                break;
-            case 2:
-                router.goToPrevious();
-                return;
+        boolean userChose = false;
+        boolean choseExit = false;
+        userChose = false;
+        int choice = 0;
+        while(userChose == false){
+            System.out.println("\nChoose Account Type\n" +
+                    "1. Student\n" +
+                    "2. Teacher\n" +
+                    "3. Go Back");
+            System.out.print("> ");
+            try{
+            int userChoice = Integer.parseInt(consoleReader.readLine());
+            if(userChoice == 1){
+                userChose = true;
+                choice = 1;
+            }
+            else if(userChoice == 2){
+                userChose = true;
+                choice = 2;
+            }
+            else if(userChoice == 3){
+                userChose = true;
+                choseExit = true;
+            }
+            else{
+                System.out.println("Invalid Option");
+            }
+            }catch(Exception e){
+                System.out.println("Invalid Input");
+            }
         }
 
-        System.out.println("\nRegister for a new account!");
+        if(choseExit!=true){
+            System.out.print("First name: ");
+            String firstName = consoleReader.readLine();
 
-        System.out.print("First name: ");
-        String firstName = consoleReader.readLine();
+            System.out.print("Last name: ");
+            String lastName = consoleReader.readLine();
 
-        System.out.print("Last name: ");
-        String lastName = consoleReader.readLine();
+            System.out.print("Email: ");
+            String email = consoleReader.readLine();
 
-        System.out.print("Email: ");
-        String email = consoleReader.readLine();
+            System.out.print("Username: ");
+            String username = consoleReader.readLine();
 
-        System.out.print("Username: ");
-        String username = consoleReader.readLine();
+            System.out.print("Password: ");
+            String password = consoleReader.readLine();
 
-        System.out.print("Password: ");
-        String password = consoleReader.readLine();
+            AppUser newUser = new AppUser(firstName, lastName, email, username, password);
 
-        AppUser newUser = new AppUser(firstName, lastName, email, username, password);
-
-        try {
-            userService.register(newUser);
-            logger.info("User successfully registered!");
-            router.navigate("/dashboard");
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            logger.debug("User not registered!");
-            router.navigate("/welcome");
+            if(choice == 2){
+                try {
+                    userService.registerAdmin(newUser);
+                    logger.info("Teacher successfully registered!");
+                    router.navigate("/dashboard");
+                } catch (Exception e) {
+                    logger.error(e.getMessage());
+                    logger.debug("User not registered!");
+                    router.navigate("/welcome");
+                }
+            }
+            else{
+                try {
+                    userService.register(newUser);
+                    logger.info("Student successfully registered!");
+                    router.navigate("/dashboard");
+                } catch (Exception e) {
+                    logger.error(e.getMessage());
+                    logger.debug("User not registered!");
+                    router.navigate("/welcome");
+                }
+            }
+        }
+        else{
+            router.goToPrevious();
         }
 
     }

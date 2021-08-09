@@ -19,34 +19,63 @@ public class LoginScreen extends Screen {
     @Override
     public void render() throws Exception {
 
-        System.out.println("\nUser Login\n" +
-                "1) Login\n" +
-                "2) Go Back");
-        System.out.print("> ");
-        int userChoice = Integer.parseInt(consoleReader.readLine());
+        boolean userChose = false;
+        while(userChose == false){
+            System.out.println("\nUser Login\n" +
+                    "1. Student Account\n" +
+                    "2. Teacher Account\n" +
+                    "3. Go Back");
+            System.out.print("> ");
+            try{
+                int userChoice = Integer.parseInt(consoleReader.readLine());
+                if(userChoice == 1){
+                    String type = "users";
+                    userChose = true;
+                    System.out.print("Username: ");
+                    String username = consoleReader.readLine();
 
-        switch (userChoice) {
-            case 1:
-                break;
-            case 2:
-                router.goToPrevious();
-                return;
-        }
+                    System.out.print("Password: ");
+                    String password = consoleReader.readLine();
+                    try {
+                        AppUser authUser = userService.login(username, password, type);
+                        System.out.println("Login successful!");
+                        router.navigate("/studentdashboard");
+                    } catch (AuthenticationException ae) {
+                        System.out.println("No user found with provided credentials!");
+                        System.out.println("Navigating back to welcome screen...");
+                        router.navigate("/welcome");
+                    }
+                }
+                if(userChoice == 2){
+                    String type = "admin";
+                    userChose = true;
+                    System.out.print("Username: ");
+                    String username = consoleReader.readLine();
 
-        System.out.print("Username: ");
-        String username = consoleReader.readLine();
+                    System.out.print("Password: ");
+                    String password = consoleReader.readLine();
+                    try {
+                        AppUser authUser = userService.login(username, password, type);
+                        System.out.println("Login successful!");
+                        router.navigate("/teacherdashboard");
+                    } catch (AuthenticationException ae) {
+                        System.out.println("No user found with provided credentials!");
+                        System.out.println("Navigating back to welcome screen...");
+                        router.navigate("/welcome");
+                    }
 
-        System.out.print("Password: ");
-        String password = consoleReader.readLine();
+                }
+                else if(userChoice == 3){
+                    userChose = true;
+                    router.goToPrevious();
+                }
+                else{
+                    System.out.println("Invalid Option");
+                }
+            }catch(Exception e){
+                System.out.println("Invalid Input");
+            }
 
-        try {
-            AppUser authUser = userService.login(username, password);
-            System.out.println("Login successful!");
-            router.navigate("/dashboard");
-        } catch (AuthenticationException ae) {
-            System.out.println("No user found with provided credentials!");
-            System.out.println("Navigating back to welcome screen...");
-            router.navigate("/welcome");
         }
 
 
