@@ -27,6 +27,7 @@ public class AppState {
               .addScreen(new LoginScreen(consoleReader, router, userService))
               .addScreen(new RegisterScreen(consoleReader, router, userService))
               .addScreen(new TeacherDashboard(consoleReader, router, userService))
+                .addScreen(new StudentDashboard(consoleReader, router, userService))
               .addScreen(new UserProfileScreen(consoleReader, router));
 
     }
