@@ -175,9 +175,14 @@ public class registrationCatalog {
             }
 
             if(collExists){
-                MongoCollection<Document> usersCollection = classDb.getCollection(classname);
-                Document newUserDoc = new Document("Students", newUser.getClassName());
-                usersCollection.insertOne(newUserDoc);
+                try{
+                    MongoCollection<Document> usersCollection = classDb.getCollection(classname);
+                    Document newUserDoc = new Document("Students", newUser.getClassName());
+                    usersCollection.insertOne(newUserDoc);
+                }catch (Exception e){
+                    System.out.println("Student already registered");
+                }
+
             }
 
             return newUser;

@@ -3,6 +3,8 @@ import com.revature.ClassManager.documents.AppUser;
 import com.revature.ClassManager.documents.registrationCatalog;
 import com.revature.ClassManager.services.UserService;
 import com.revature.ClassManager.util.ScreenRouter;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.BufferedReader;
 import java.util.ArrayList;
@@ -10,6 +12,7 @@ import java.util.List;
 
 public class StudentDashboard extends Screen {
 
+    private final Logger logger = LogManager.getLogger(StudentDashboard.class);
     private final UserService userService;
 
     public StudentDashboard(BufferedReader consoleReader, ScreenRouter router, UserService userService) {
@@ -38,47 +41,51 @@ public class StudentDashboard extends Screen {
             System.out.println("3. Register for Class");
             System.out.println("4. Withdraw from Class");
             System.out.println("5. Exit Dashboard");
-            int userChoice = Integer.parseInt(consoleReader.readLine());
+            try{
+                int userChoice = Integer.parseInt(consoleReader.readLine());
 
-            if(userChoice == 1){
-                String className = "test";
-                registrationCatalog newClass = new registrationCatalog(className);
-                newClass.showClasses();
-            }
-            else if(userChoice == 2){
-                currentUser.getRegisteredClasses().clear();
-                registrationCatalog newClass = new registrationCatalog(studentName);
-                List<String> allClasses = new ArrayList<>();
-                newClass.getAllCollections(allClasses);
-                for(int i = 0; i < allClasses.size(); i++){
-                    if(newClass.currentlyRegistered(newClass, false, allClasses.get(i)) == true){
-                        currentUser.setRegisteredClasses(currentUser.getRegisteredClasses(), allClasses.get(i));
-                    }
+                if(userChoice == 1){
+                    String className = "test";
+                    registrationCatalog newClass = new registrationCatalog(className);
+                    newClass.showClasses();
                 }
-                System.out.println(currentUser.getRegisteredClasses());
+                else if(userChoice == 2){
+                    currentUser.getRegisteredClasses().clear();
+                    registrationCatalog newClass = new registrationCatalog(studentName);
+                    List<String> allClasses = new ArrayList<>();
+                    newClass.getAllCollections(allClasses);
+                    for(int i = 0; i < allClasses.size(); i++){
+                        if(newClass.currentlyRegistered(newClass, false, allClasses.get(i)) == true){
+                            currentUser.setRegisteredClasses(currentUser.getRegisteredClasses(), allClasses.get(i));
+                        }
+                    }
+                    System.out.println(currentUser.getRegisteredClasses());
+                }
+                else if(userChoice == 3){
+                    System.out.println("Class Name: ");
+                    String className = consoleReader.readLine();
+                    registrationCatalog newClass = new registrationCatalog(studentName);
+                    newClass.register(newClass, className);
+                }
+                else if(userChoice == 4){
+                    System.out.println("Choose Class to Withdraw From: ");
+                    String className = consoleReader.readLine();
+                    registrationCatalog newClass = new registrationCatalog(studentName);
+                    newClass.withdraw(newClass, className);
+                }
+                else if(userChoice == 5){
+                    leaveDashboard = true;
+                }
+                else{
+                    System.out.println("Invalid Option");
+                }
+            }catch (Exception e){
+                logger.error(e.getMessage());
+                logger.debug("Invalid Input");
             }
-            else if(userChoice == 3){
-                System.out.println("Class Name: ");
-                String className = consoleReader.readLine();
-                registrationCatalog newClass = new registrationCatalog(studentName);
-                newClass.register(newClass, className);
-            }
-            else if(userChoice == 4){
-                System.out.println("Choose Class to Withdraw From: ");
-                String className = consoleReader.readLine();
-                registrationCatalog newClass = new registrationCatalog(studentName);
-                newClass.withdraw(newClass, className);
-            }
-            else if(userChoice == 5){
-                leaveDashboard = true;
-            }
-            else{
-                System.out.println("Invalid Option");
-            }
-        }
 
+    }
         System.out.println("Returning to Welcome Screen.");
         router.navigate("/welcome");
     }
-
 }

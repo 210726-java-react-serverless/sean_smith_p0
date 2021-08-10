@@ -4,11 +4,14 @@ import com.revature.ClassManager.documents.AppUser;
 import com.revature.ClassManager.documents.registrationCatalog;
 import com.revature.ClassManager.services.UserService;
 import com.revature.ClassManager.util.ScreenRouter;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.BufferedReader;
 
 public class TeacherDashboard extends Screen {
 
+    private final Logger logger = LogManager.getLogger(TeacherDashboard.class);
     private final UserService userService;
 
     public TeacherDashboard(BufferedReader consoleReader, ScreenRouter router, UserService userService) {
@@ -37,8 +40,9 @@ public class TeacherDashboard extends Screen {
         System.out.println("3. Add New Class");
         System.out.println("4. Delete Class");
         System.out.println("5. Exit Dashboard");
-        int userChoice = Integer.parseInt(consoleReader.readLine());
 
+        try{
+            int userChoice = Integer.parseInt(consoleReader.readLine());
             if(userChoice == 1){
                 String className = "test";
                 registrationCatalog newClass = new registrationCatalog(className);
@@ -70,10 +74,13 @@ public class TeacherDashboard extends Screen {
             else{
                 System.out.println("Invalid Option");
             }
+        } catch (Exception e){
+            logger.error(e.getMessage());
+            logger.debug("Invalid Input");
         }
 
+        }
         System.out.println("Returning to Welcome Screen.");
         router.navigate("/welcome");
     }
-
 }
