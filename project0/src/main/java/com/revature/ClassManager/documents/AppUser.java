@@ -3,6 +3,8 @@ package com.revature.ClassManager.documents;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -16,6 +18,7 @@ public class AppUser {
     private String password;
     private Address address;
     private LocalDateTime registrationTime;
+    private List<String> registeredClasses = new ArrayList<String>();
 
     public AppUser() {
         super();
@@ -111,6 +114,18 @@ public class AppUser {
 
     public void setRegistrationTime(LocalDateTime registrationTime) {
         this.registrationTime = registrationTime;
+    }
+
+    public List<String> getRegisteredClasses() {
+        return registeredClasses;
+    }
+
+    public void setRegisteredClasses(List<String> registeredClasses, String className) {
+        this.registeredClasses.add(className);
+    }
+
+    public void removeRegisteredClasses(List<String> registeredClasses, String className) {
+        this.registeredClasses.remove(className);
     }
 
     @Override

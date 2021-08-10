@@ -2,12 +2,17 @@ package com.revature.ClassManager.documents;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.client.*;
 
+import com.mongodb.client.model.Projections;
 import com.revature.ClassManager.util.MongoClientFactory;
 import com.revature.ClassManager.util.exceptions.DataSourceException;
+import com.sun.deploy.util.StringUtils;
 import org.bson.Document;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+
+import static jdk.nashorn.internal.objects.NativeString.substr;
 
 
 public class registrationCatalog {
@@ -99,7 +104,9 @@ public class registrationCatalog {
             FindIterable<Document> iterDoc = usersCollection.find();
             Iterator it = iterDoc.iterator();
             while (it.hasNext()) {
-                System.out.println(it.next());
+                String stNames = it.next().toString().substring(49);
+                stNames = stNames.substring(0, stNames.length() - 2);
+                System.out.println(stNames);
             }
 
         } catch (Exception e) {
@@ -109,18 +116,28 @@ public class registrationCatalog {
         return newUser;
     }
 
-    public registrationCatalog register(registrationCatalog newUser, String classname) {
+
+    public boolean register(registrationCatalog newUser, String classname, boolean reg) {
 
         try {
             MongoClient mongoClient = MongoClientFactory.getInstance().getConnection();
 
             MongoDatabase classDb = mongoClient.getDatabase("classes");
-            MongoCollection<Document> usersCollection = classDb.getCollection(classname);
-            Document newUserDoc = new Document("Students", newUser.getClassName());
+            boolean collExists = false;
+            for (final String name : classDb.listCollectionNames()) {
+                if (name.equalsIgnoreCase(classname)) {
+                    collExists = true;
+                }
+            }
 
-            usersCollection.insertOne(newUserDoc);
+            if(collExists){
+                MongoCollection<Document> usersCollection = classDb.getCollection(classname);
+                Document newUserDoc = new Document("Students", newUser.getClassName());
+                usersCollection.insertOne(newUserDoc);
+                reg = true;
+            }
 
-            return newUser;
+            return reg;
 
         } catch (Exception e) {
             e.printStackTrace(); // TODO log this to a file

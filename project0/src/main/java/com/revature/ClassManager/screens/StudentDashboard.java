@@ -44,19 +44,22 @@ public class StudentDashboard extends Screen {
                 newClass.showClasses();
             }
             else if(userChoice == 2){
-
+                System.out.println(currentUser.getRegisteredClasses());
             }
             else if(userChoice == 3){
                 System.out.println("Class Name: ");
                 String className = consoleReader.readLine();
                 registrationCatalog newClass = new registrationCatalog(studentName);
-                newClass.register(newClass, className);
+                if(newClass.register(newClass, className, false) == true){
+                    currentUser.setRegisteredClasses(currentUser.getRegisteredClasses(), className);
+                }
             }
             else if(userChoice == 4){
                 System.out.println("Choose Class to Withdraw From: ");
                 String className = consoleReader.readLine();
                 registrationCatalog newClass = new registrationCatalog(studentName);
                 newClass.withdraw(newClass, className);
+                currentUser.removeRegisteredClasses(currentUser.getRegisteredClasses(), className);
             }
             else if(userChoice == 5){
                 leaveDashboard = true;
