@@ -5,6 +5,8 @@ import com.revature.ClassManager.services.UserService;
 import com.revature.ClassManager.util.ScreenRouter;
 
 import java.io.BufferedReader;
+import java.util.ArrayList;
+import java.util.List;
 
 public class StudentDashboard extends Screen {
 
@@ -44,22 +46,28 @@ public class StudentDashboard extends Screen {
                 newClass.showClasses();
             }
             else if(userChoice == 2){
+                currentUser.getRegisteredClasses().clear();
+                registrationCatalog newClass = new registrationCatalog(studentName);
+                List<String> allClasses = new ArrayList<>();
+                newClass.getAllCollections(allClasses);
+                for(int i = 0; i < allClasses.size(); i++){
+                    if(newClass.currentlyRegistered(newClass, false, allClasses.get(i)) == true){
+                        currentUser.setRegisteredClasses(currentUser.getRegisteredClasses(), allClasses.get(i));
+                    }
+                }
                 System.out.println(currentUser.getRegisteredClasses());
             }
             else if(userChoice == 3){
                 System.out.println("Class Name: ");
                 String className = consoleReader.readLine();
                 registrationCatalog newClass = new registrationCatalog(studentName);
-                if(newClass.register(newClass, className, false) == true){
-                    currentUser.setRegisteredClasses(currentUser.getRegisteredClasses(), className);
-                }
+                newClass.register(newClass, className);
             }
             else if(userChoice == 4){
                 System.out.println("Choose Class to Withdraw From: ");
                 String className = consoleReader.readLine();
                 registrationCatalog newClass = new registrationCatalog(studentName);
                 newClass.withdraw(newClass, className);
-                currentUser.removeRegisteredClasses(currentUser.getRegisteredClasses(), className);
             }
             else if(userChoice == 5){
                 leaveDashboard = true;

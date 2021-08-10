@@ -116,8 +116,52 @@ public class registrationCatalog {
         return newUser;
     }
 
+    public boolean currentlyRegistered(registrationCatalog newUser, boolean reg, String className){
+        try {
+            MongoClient mongoClient = MongoClientFactory.getInstance().getConnection();
 
-    public boolean register(registrationCatalog newUser, String classname, boolean reg) {
+            MongoDatabase classDb = mongoClient.getDatabase("classes");
+            MongoCollection<Document> usersCollection = classDb.getCollection(className);
+            Document newUserDoc = new Document("className", newUser.getClassName());
+
+            FindIterable<Document> iterDoc = usersCollection.find();
+            Iterator it = iterDoc.iterator();
+            while (it.hasNext()) {
+                String stNames = it.next().toString().substring(49);
+                stNames = stNames.substring(0, stNames.length() - 2);
+                if(stNames.equals(newUser.getClassName())){
+                    reg = true;
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace(); // TODO log this to a file
+            throw new DataSourceException("An unexpected exception occurred.", e);
+        }
+        return reg;
+    }
+
+    public List<String> getAllCollections(List<String> classNames){
+        try {
+            MongoClient mongoClient = MongoClientFactory.getInstance().getConnection();
+
+            MongoDatabase classDb = mongoClient.getDatabase("classes");
+
+            MongoIterable<String> list = classDb.listCollectionNames();
+            for (String name : list) {
+                classNames.add(name);
+            }
+            return classNames;
+
+        } catch (Exception e) {
+            e.printStackTrace(); // TODO log this to a file
+            throw new DataSourceException("An unexpected exception occurred.", e);
+        }
+
+
+    }
+
+    public registrationCatalog register(registrationCatalog newUser, String classname) {
 
         try {
             MongoClient mongoClient = MongoClientFactory.getInstance().getConnection();
@@ -134,10 +178,9 @@ public class registrationCatalog {
                 MongoCollection<Document> usersCollection = classDb.getCollection(classname);
                 Document newUserDoc = new Document("Students", newUser.getClassName());
                 usersCollection.insertOne(newUserDoc);
-                reg = true;
             }
 
-            return reg;
+            return newUser;
 
         } catch (Exception e) {
             e.printStackTrace(); // TODO log this to a file
