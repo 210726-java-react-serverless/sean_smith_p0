@@ -2,21 +2,20 @@ package com.revature.ClassManager.documents;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.client.*;
 
-import com.mongodb.client.model.Projections;
+
+import com.revature.ClassManager.screens.StudentDashboard;
 import com.revature.ClassManager.util.MongoClientFactory;
 import com.revature.ClassManager.util.exceptions.DataSourceException;
-import com.sun.deploy.util.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.bson.Document;
-
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
-
-import static jdk.nashorn.internal.objects.NativeString.substr;
 
 
 public class registrationCatalog {
 
+    private final Logger logger = LogManager.getLogger(StudentDashboard.class);
     private String className;
     private int classSize;
     private List<String> students;
@@ -40,19 +39,21 @@ public class registrationCatalog {
     public registrationCatalog save(registrationCatalog newUser, String className) {
 
         try {
-            MongoClient mongoClient = MongoClientFactory.getInstance().getConnection();
+            MongoClient mongoClient = MongoClientFactory.getInstance().getConnection(); //connect to mongoDB
 
             MongoDatabase classDb = mongoClient.getDatabase("classes");
+            //sets db to classes. all class names and student rosters exist here
             try{
-                classDb.createCollection(className);
+                classDb.createCollection(className); //create new collection with class name
             }catch (Exception e){
+                logger.error(e.getMessage());
                 System.out.println("Class already exists!");
             }
 
-            return newUser;
+            return newUser; //has no actual functionality
 
         } catch (Exception e) {
-            e.printStackTrace(); // TODO log this to a file
+            logger.error(e.getMessage());
             throw new DataSourceException("An unexpected exception occurred.", e);
         }
     }
@@ -64,12 +65,12 @@ public class registrationCatalog {
             MongoClient mongoClient = MongoClientFactory.getInstance().getConnection();
 
             MongoDatabase classDb = mongoClient.getDatabase("classes");
-            classDb.getCollection(name).drop();
+            classDb.getCollection(name).drop(); //deletes collection with class name
 
             return newUser;
 
         } catch (Exception e) {
-            e.printStackTrace(); // TODO log this to a file
+            logger.error(e.getMessage());
             throw new DataSourceException("An unexpected exception occurred.", e);
         }
     }
@@ -82,12 +83,13 @@ public class registrationCatalog {
             MongoDatabase classDb = mongoClient.getDatabase("classes");
 
             MongoIterable<String> list = classDb.listCollectionNames();
+            //iterate through all collections in class DB and print
             for (String name : list) {
                 System.out.println(name);
             }
 
         } catch (Exception e) {
-            e.printStackTrace(); // TODO log this to a file
+            logger.error(e.getMessage());
             throw new DataSourceException("An unexpected exception occurred.", e);
         }
     }
@@ -99,18 +101,22 @@ public class registrationCatalog {
 
             MongoDatabase classDb = mongoClient.getDatabase("classes");
             MongoCollection<Document> usersCollection = classDb.getCollection(className);
-            Document newUserDoc = new Document("className", newUser.getClassName());
+            //document enables reading collection contents with .find(), i.e student names
 
             FindIterable<Document> iterDoc = usersCollection.find();
             Iterator it = iterDoc.iterator();
             while (it.hasNext()) {
+                //iterates through class roster and only prints student names
                 String stNames = it.next().toString().substring(49);
+                //cuts off string until start of student name
                 stNames = stNames.substring(0, stNames.length() - 2);
+                //removes last two characters of string (contained two brackets at end)
                 System.out.println(stNames);
+                //prints out remaining string after trimming unnecessary characters (only student name remains)
             }
 
         } catch (Exception e) {
-            e.printStackTrace(); // TODO log this to a file
+            logger.error(e.getMessage());
             throw new DataSourceException("An unexpected exception occurred.", e);
         }
         return newUser;
@@ -122,7 +128,6 @@ public class registrationCatalog {
 
             MongoDatabase classDb = mongoClient.getDatabase("classes");
             MongoCollection<Document> usersCollection = classDb.getCollection(className);
-            Document newUserDoc = new Document("className", newUser.getClassName());
 
             FindIterable<Document> iterDoc = usersCollection.find();
             Iterator it = iterDoc.iterator();
@@ -133,9 +138,11 @@ public class registrationCatalog {
                     reg = true;
                 }
             }
+            //same basic process as showRoster, but instead of printing all student names, finds if
+            //provided student name matches any inside collection, and returns true if it does
 
         } catch (Exception e) {
-            e.printStackTrace(); // TODO log this to a file
+            logger.error(e.getMessage());
             throw new DataSourceException("An unexpected exception occurred.", e);
         }
         return reg;
@@ -148,13 +155,15 @@ public class registrationCatalog {
             MongoDatabase classDb = mongoClient.getDatabase("classes");
 
             MongoIterable<String> list = classDb.listCollectionNames();
+            //adds all classes in DB to a string list.
+            //used to show all classes a student is registered for in StudentDashboard
             for (String name : list) {
                 classNames.add(name);
             }
             return classNames;
 
         } catch (Exception e) {
-            e.printStackTrace(); // TODO log this to a file
+            logger.error(e.getMessage());
             throw new DataSourceException("An unexpected exception occurred.", e);
         }
 
@@ -168,18 +177,23 @@ public class registrationCatalog {
 
             MongoDatabase classDb = mongoClient.getDatabase("classes");
             boolean collExists = false;
+            //used to check if a class already exists. does not register student if it does not
             for (final String name : classDb.listCollectionNames()) {
                 if (name.equalsIgnoreCase(classname)) {
+                    //if provided class name matches a collection in DB, then it exists
                     collExists = true;
                 }
             }
 
             if(collExists){
                 try{
+                    //class exists: add student to class
+
                     MongoCollection<Document> usersCollection = classDb.getCollection(classname);
                     Document newUserDoc = new Document("Students", newUser.getClassName());
                     usersCollection.insertOne(newUserDoc);
                 }catch (Exception e){
+                    logger.error(e.getMessage());
                     System.out.println("Student already registered");
                 }
 
@@ -188,7 +202,7 @@ public class registrationCatalog {
             return newUser;
 
         } catch (Exception e) {
-            e.printStackTrace(); // TODO log this to a file
+            logger.error(e.getMessage());
             throw new DataSourceException("An unexpected exception occurred.", e);
         }
     }
@@ -201,12 +215,13 @@ public class registrationCatalog {
             MongoCollection<Document> usersCollection = classDb.getCollection(className);
             Document newUserDoc = new Document("Students", newUser.getClassName());
 
-            usersCollection.deleteOne(newUserDoc);
+            usersCollection.deleteOne(newUserDoc); //removes provided class name from DB (deletes collection)
+            //nothing happens if provided class does not exist in database
 
             return newUser;
 
         } catch (Exception e) {
-            e.printStackTrace(); // TODO log this to a file
+            logger.error(e.getMessage());
             throw new DataSourceException("An unexpected exception occurred.", e);
         }
     }

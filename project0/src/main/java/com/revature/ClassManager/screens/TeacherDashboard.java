@@ -31,7 +31,7 @@ public class TeacherDashboard extends Screen {
         AppUser currentUser = userService.getSession().getCurrentUser();
 
         System.out.println("Welcome to your dashboard, " + currentUser.getUsername());
-        boolean leaveDashboard = false;
+        boolean leaveDashboard = false; //checks if user chose to leave dashboard
 
 
         while(leaveDashboard == false){
@@ -45,28 +45,32 @@ public class TeacherDashboard extends Screen {
             int userChoice = Integer.parseInt(consoleReader.readLine());
             if(userChoice == 1){
                 String className = "test";
+                //didn't feel like making a new method for this one case, so i just used a dummy value
+                //to make a registrationCatalog object
                 registrationCatalog newClass = new registrationCatalog(className);
                 newClass.showClasses();
             }
             else if(userChoice == 2){
                 System.out.println("Enter Class Name: ");
                 String className = consoleReader.readLine();
+                //retrieves class name from user
                 registrationCatalog newClass = new registrationCatalog(className);
                 newClass.showRoster(newClass, className);
+                //finds all "student" values in specified class collection
             }
             else if(userChoice == 3){
                 System.out.println("Class Name: ");
                 String className = consoleReader.readLine();
-                System.out.println("Class Size: ");
+                System.out.println("Class Size: "); //TODO implement class size
                 int classSize = Integer.parseInt(consoleReader.readLine());
                 registrationCatalog newClass = new registrationCatalog(className, classSize);
-                newClass.save(newClass, newClass.getClassName());
+                newClass.save(newClass, newClass.getClassName()); //saves new class collection to DB
             }
             else if(userChoice == 4){
                 System.out.println("Choose class to delete: ");
                 String className = consoleReader.readLine();
                 registrationCatalog newClass = new registrationCatalog(className);
-                newClass.delete(newClass, className);
+                newClass.delete(newClass, className); //removes class from DB. deletes all students from roster
             }
             else if(userChoice == 5){
                 leaveDashboard = true;

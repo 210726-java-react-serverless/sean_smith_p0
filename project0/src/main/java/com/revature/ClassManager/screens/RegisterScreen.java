@@ -21,11 +21,11 @@ public class RegisterScreen extends Screen {
     @Override
     public void render() throws Exception {
 
-        boolean userChose = false;
-        boolean choseExit = false;
+        boolean userChose = false; //checks if user made a valid choice (1,2, or 3)
+        boolean choseExit = false; //will loop until user makes valid choice
         userChose = false;
         int choice = 0;
-        while(userChose == false){
+        while(userChose == false){ //start of loop
             System.out.println("\nChoose Account Type\n" +
                     "1. Student\n" +
                     "2. Teacher\n" +
@@ -35,7 +35,9 @@ public class RegisterScreen extends Screen {
             int userChoice = Integer.parseInt(consoleReader.readLine());
             if(userChoice == 1){
                 userChose = true;
+                //breaks out of loop if user made valid choice
                 choice = 1;
+                //sets user choice for later
             }
             else if(userChoice == 2){
                 userChose = true;
@@ -49,11 +51,15 @@ public class RegisterScreen extends Screen {
                 System.out.println("Invalid Option");
             }
             }catch(Exception e){
+                //exception if user inputs a non int value, such as a string
+                logger.error(e.getMessage());
                 System.out.println("Invalid Input");
             }
-        }
+        } //end of loop
 
+        //if user chose option 3, skips this and returns to previous screen
         if(choseExit!=true){
+            //get user credentials
             System.out.print("First name: ");
             String firstName = consoleReader.readLine();
 
@@ -71,22 +77,21 @@ public class RegisterScreen extends Screen {
 
             AppUser newUser = new AppUser(firstName, lastName, email, username, password);
 
+            //only potential options are 1 or 2. register teacher for 2 and student for 1
             if(choice == 2){
                 try {
-                    userService.registerAdmin(newUser);
+                    userService.registerAdmin(newUser); //registerAdmin saves credentials to teacher collection
                     logger.info("Teacher successfully registered!");
-                    router.navigate("/dashboard");
                 } catch (Exception e) {
-                    logger.error(e.getMessage());
+                    logger.error(e.getMessage()); //unexpected error: return to welcome screen
                     logger.debug("User not registered!");
                     router.navigate("/welcome");
                 }
             }
             else{
                 try {
-                    userService.register(newUser);
-                    logger.info("Student successfully registered!");
-                    router.navigate("/dashboard");
+                    userService.register(newUser); //register saves credentials to student collection
+                    logger.info("Student successfully registered!"); //TODO prevent duplicate registrations
                 } catch (Exception e) {
                     logger.error(e.getMessage());
                     logger.debug("User not registered!");
@@ -95,6 +100,7 @@ public class RegisterScreen extends Screen {
             }
         }
         else{
+            //returns to previous screen
             router.goToPrevious();
         }
 

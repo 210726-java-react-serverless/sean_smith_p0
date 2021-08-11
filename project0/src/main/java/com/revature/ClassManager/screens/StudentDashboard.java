@@ -32,8 +32,10 @@ public class StudentDashboard extends Screen {
         AppUser currentUser = userService.getSession().getCurrentUser();
 
         System.out.println("Welcome to your dashboard, " + currentUser.getUsername());
-        boolean leaveDashboard = false;
+        boolean leaveDashboard = false; //checks if user chose to leave dashboard
         String studentName = currentUser.getFirstName() + " " + currentUser.getLastName();
+        //sets current student's name to full name of current user.
+        //used to put name on class roster during registration
 
         while(leaveDashboard == false){
             System.out.println("1. Show Available Classes");
@@ -46,17 +48,23 @@ public class StudentDashboard extends Screen {
 
                 if(userChoice == 1){
                     String className = "test";
+                    //didn't feel like making a new method for this case, so i just used a dummy value
+                    //to make a registrationCatalog object
                     registrationCatalog newClass = new registrationCatalog(className);
                     newClass.showClasses();
                 }
                 else if(userChoice == 2){
                     currentUser.getRegisteredClasses().clear();
+                    //clear currentUser's registeredClasses list so there aren't duplicate values
+                    //also satisfies need to remove any values from registeredClasses list during withdraw
                     registrationCatalog newClass = new registrationCatalog(studentName);
                     List<String> allClasses = new ArrayList<>();
                     newClass.getAllCollections(allClasses);
+                    //gets string list of all available classes on DB
                     for(int i = 0; i < allClasses.size(); i++){
                         if(newClass.currentlyRegistered(newClass, false, allClasses.get(i)) == true){
                             currentUser.setRegisteredClasses(currentUser.getRegisteredClasses(), allClasses.get(i));
+                            //checks if user is registered to any classes, and puts it in registeredClasses list if they are
                         }
                     }
                     System.out.println(currentUser.getRegisteredClasses());
@@ -65,22 +73,22 @@ public class StudentDashboard extends Screen {
                     System.out.println("Class Name: ");
                     String className = consoleReader.readLine();
                     registrationCatalog newClass = new registrationCatalog(studentName);
-                    newClass.register(newClass, className);
+                    newClass.register(newClass, className); //adds studentName to class' collection in DB
                 }
                 else if(userChoice == 4){
                     System.out.println("Choose Class to Withdraw From: ");
                     String className = consoleReader.readLine();
                     registrationCatalog newClass = new registrationCatalog(studentName);
-                    newClass.withdraw(newClass, className);
+                    newClass.withdraw(newClass, className); //removes studentName from class' collection in DB
                 }
                 else if(userChoice == 5){
-                    leaveDashboard = true;
+                    leaveDashboard = true; //breaks loop in order to return to welcome screen
                 }
                 else{
                     System.out.println("Invalid Option");
                 }
             }catch (Exception e){
-                logger.error(e.getMessage());
+                logger.error(e.getMessage()); //checks if user input a non int value
                 logger.debug("Invalid Input");
             }
 
