@@ -116,4 +116,20 @@ public class UserServiceTestSuite {
 
     }
 
+    @Test(expected = InvalidRequestException.class)
+    public void login_throwsException_whenGivenInvalidUserCredentials(){
+        //Arrange
+        AppUser existingUser = new AppUser("original", "original", "original", "duplicate", "original");
+        AppUser duplicate = new AppUser("first", "last", "email", "duplicate", "password");
+        when(mockUserRepo.findUserByCredentials(duplicate.getUsername(), duplicate.getPassword(), ""));
+
+        //Act
+        verify(mockUserRepo, times(1)).findUserByCredentials(duplicate.getUsername(), duplicate.getPassword(), "");
+        verify(mockUserSession).setCurrentUser(duplicate);
+
+        //Assert
+
+
+    }
+
 }
