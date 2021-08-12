@@ -73,7 +73,12 @@ public class StudentDashboard extends Screen {
                     System.out.println("Class Name: ");
                     String className = consoleReader.readLine();
                     registrationCatalog newClass = new registrationCatalog(studentName);
-                    newClass.register(newClass, className); //adds studentName to class' collection in DB
+                    if(newClass.currentlyRegistered(newClass, false, className) != true){
+                        newClass.register(newClass, className); //adds studentName to class' collection in DB
+                    }else{
+                        System.out.println("Already registered for this class!");
+                    }
+
                 }
                 else if(userChoice == 4){
                     System.out.println("Choose Class to Withdraw From: ");
