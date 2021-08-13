@@ -1,0 +1,15 @@
+com\util\exceptions\AuthenticationException.class
+com\util\MongoClientFactory.class
+com\documents\AppUser.class
+com\util\exceptions\ScreenNotFoundException.class
+com\services\UserService.class
+com\util\AppServer.class
+com\util\exceptions\ResourcePersistenceException.class
+com\documents\Address.class
+com\util\exceptions\DataSourceException.class
+com\datasourse\repos\RegistrationCatalog.class
+com\util\ContextLoaderListener.class
+com\servlets\UserServlet.class
+com\datasourse\repos\CrudRepository.class
+com\util\exceptions\InvalidRequestException.class
+com\datasourse\repos\UserRepository.class
