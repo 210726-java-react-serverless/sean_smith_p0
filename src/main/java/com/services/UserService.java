@@ -3,6 +3,7 @@ package com.services;
 import com.documents.AppUser;
 import com.datasourse.repos.UserRepository;
 
+import com.dto.SheildedUser;
 import com.util.exceptions.AuthenticationException;
 import com.util.exceptions.InvalidRequestException;
 import com.util.exceptions.ResourcePersistenceException;
@@ -17,6 +18,10 @@ public class UserService {
     }
 
 
+    public SheildedUser FindUserById(String id)
+    {
+        return new SheildedUser(userRepo.findById(id));
+    }
 
     public AppUser register(AppUser newUser) {
 

@@ -1,4 +1,4 @@
-package com.datasourse.repos;
+package com.services;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.client.*;
 
@@ -39,8 +39,8 @@ public class RegistrationCatalog {
         try {
             MongoClient mongoClient = MongoClientFactory.getInstance().getConnection(); //connect to mongoDB
 
-            MongoDatabase classDb = mongoClient.getDatabase("classes");
-            //sets db to classes. all class names and student rosters exist here
+            MongoDatabase classDb = mongoClient.getDatabase("classes");//sets db to classes. all class names and student rosters exist here
+
             try{
                 classDb.createCollection(className); //create new collection with class name
             }catch (Exception e){

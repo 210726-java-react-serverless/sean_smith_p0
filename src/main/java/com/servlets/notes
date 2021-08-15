@@ -1,0 +1,26 @@
+
+
+
+  String userParam = principal.getUserAuthorizationLevel;
+        PrintWriter respWriter = resp.getWriter();
+        try{
+            if(userParam == null)
+            {
+                List<AppUser> users = userService.findAll();
+                respWriter.write(mapper.writeValueAsString(users));
+            }
+            else if (!userParam == admin)
+            {
+                   resp.setStatus(401);
+                  throw new UserAuthorizationError("not authorized")
+
+            }
+            else   {
+                AppUser appUser = new AppUser(); // TODO implement find user by id method in user service
+                respWriter.write(mapper.writeValueAsString(appUser));
+            }
+
+        }catch(Exception e)
+        {
+
+        }
